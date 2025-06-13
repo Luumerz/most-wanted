@@ -35,7 +35,7 @@ class CriminalController extends Controller
         if ($request->hasFile('Foto')) {
             $datosCriminal['Foto'] = $request->file('Foto')->store('uploads', 'public');
         }
-        Criminal::insert($datosCriminal);
+        Criminal::create($datosCriminal);
         return redirect('criminales');
     }
 
@@ -65,7 +65,7 @@ class CriminalController extends Controller
         $datosCriminal = request()->except('_token', '_method');
         if ($request->hasFile('Foto')) {
             $criminal = Criminal::findOrFail($id);
-            Storage::delete('public/'.$criminal->Foto);
+            Storage::delete('public/' . $criminal->Foto);
             $datosCriminal['Foto'] = $request->file('Foto')->store('uploads', 'public');
         }
         Criminal::where('id', '=', $id)->update($datosCriminal);
@@ -78,7 +78,14 @@ class CriminalController extends Controller
      */
     public function destroy($id)
     {
-        Criminal::destroy($id);
+        $criminal = Criminal::findOrFail($id);
+
+        if ($criminal->Foto && Storage::disk('public')->exists($criminal->Foto)) {
+            Storage::disk('public')->delete($criminal->Foto);
+        }
+
+        $criminal->delete();
+
         return redirect('criminales');
     }
 }

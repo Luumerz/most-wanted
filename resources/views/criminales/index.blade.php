@@ -16,7 +16,8 @@
 
         <nav class="header__navbar">
             <ul class="header__list">
-                <li class="header__item"><a href="{{ route('criminales.create') }}" class="header__link">Añadir criminal</a></li>
+                <li class="header__item"><a href="{{ route('criminales.create') }}" class="header__link">Añadir
+                        criminal</a></li>
             </ul>
         </nav>
 
@@ -26,41 +27,48 @@
         <div class="main__grid">
             @foreach ($criminales as $criminal)
                 <div class="main__card">
-                <div class="main__img--container">
-                    <img src="{{ asset('storage').'/'.$criminal->Foto }}" alt="fotoCriminal" class="main__img">
-                </div>
-                <div class="main__content">
-                    <h3 class="main__name">{{ $criminal->Apellidos }}, {{ $criminal->Nombre }}</h2>
-                    <div class="main__data">
-                        <p>DNI: {{ $criminal->DNI }}</p>
-                        <p>Altura: {{ $criminal->Altura }}m</p>
-                        <p>Peso: {{ $criminal->Peso }}kg</p>
-                        <p>Edad: {{ $criminal->Edad }} años</p>
-                        <p>Crimen: {{ $criminal->Crimen }}</p>
-                        <p>Estado: {{ $criminal->Estado }}</p>
-                        <p>Recompensa: 
-                            @if ($criminal->Recompensa == 0)
-                                Sin recompensa
-                            @else
-                                {{ $criminal->Recompensa }}$
-                            @endif
-                        </p>
-                        <form action="{{ url('/criminales/'.$criminal->id) }}">
-                            @csrf
-                            <button class="main__data--link">Ver detalles</button>
-                        </form>
-                        <form action="{{ url('/criminales/'.$criminal->id.'/edit') }}">
-                            <button class="main__data--link action">Editar</button>
-                        </form>
-                        <form action="{{ url('/criminales/'.$criminal->id) }}" method="post">
-                            @csrf
-                            {{ method_field('DELETE') }}
-                            <button type="submit" onclick="return confirm('¿Esta seguro que desea eliminal el criminal?')" class="main__data--link action">Eliminar</button>
-                        </form>
+                    <div class="main__img--container">
+                        <img src="{{ asset('storage') . '/' . $criminal->Foto }}" alt="fotoCriminal" class="main__img">
                     </div>
+                    <div class="main__content">
+                        <h3 class="main__name">{{ $criminal->Apellidos }}, {{ $criminal->Nombre }}</h2>
+                            <div class="main__data">
+                                <p>DNI: {{ $criminal->DNI }}</p>
+                                <p>Altura: {{ $criminal->Altura }}m</p>
+                                <p>Peso: {{ $criminal->Peso }}kg</p>
+                                <p>Edad: {{ $criminal->Edad }} años</p>
+                                <p>Crimen: {{ $criminal->Crimen }}</p>
+                                <p>Estado: {{ $criminal->Estado }}</p>
+                                <p>Recompensa:
+                                    @if ($criminal->Recompensa == 0)
+                                        Sin recompensa
+                                    @else
+                                        {{ $criminal->Recompensa }}$
+                                    @endif
+                                </p>
+                                <form action="{{ url('/criminales/' . $criminal->id) }}">
+                                    @csrf
+                                    <button class="main__data--link">Ver detalles</button>
+                                </form>
+                                <form action="{{ url('/criminales/' . $criminal->id . '/edit') }}">
+                                    <button class="main__data--link action">Editar</button>
+                                </form>
+                                <form action="{{ url('/criminales/' . $criminal->id) }}" method="post">
+                                    @csrf
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit"
+                                        onclick="return confirm('¿Esta seguro que desea eliminal el criminal?')"
+                                        class="main__data--link action">Eliminar</button>
+                                </form>
+                            </div>
+                    </div>
+
                 </div>
-            </div>
             @endforeach
+
+        </div>
+        <div class="pagination">
+            {{ $criminales->links() }}
         </div>
     </main>
 
